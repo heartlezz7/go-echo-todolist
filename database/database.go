@@ -33,14 +33,8 @@ func ConnectPostgres() error {
 		sslmode:  os.Getenv("DB_MODE"),
 	}
 
-	fmt.Println("conf: ", conf)
-
 	// set postgres URL
-	dbURL := os.Getenv("user_playground_db_url")
-	if dbURL == "" {
-		fmt.Println("DB_URL is empty")
-		dbURL = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", conf.user, conf.password, conf.host, conf.port, conf.dbName, conf.sslmode)
-	}
+	dbURL := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", conf.user, conf.password, conf.host, conf.port, conf.dbName, conf.sslmode)
 
 	DB, err = sql.Open("postgres", dbURL)
 
@@ -56,6 +50,4 @@ func ConnectPostgres() error {
 
 	fmt.Println("Successfully connected to postgres DB")
 	return nil
-	// defer close db
-	// defer db.Close()
 }
